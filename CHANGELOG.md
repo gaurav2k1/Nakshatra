@@ -6,6 +6,15 @@ All notable changes to this project will be documented here. The format follows
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-08-27
+
+### Added
+
+- Directed whole-sign Graha Drishti between calculated chart placements.
+- Universal seventh and special Mars, Jupiter, and Saturn full aspects.
+- Explicit source and geometric evidence for each returned aspect.
+- Aspect validation, API coverage, focused tests, and browser presentation.
+
 ## [0.7.0] - 2026-08-27
 
 ### Added

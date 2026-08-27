@@ -140,3 +140,17 @@ node exaltation and debilitation, as noted in *Phaladeepika* chapter 1, so the
 engine does not silently choose a disputed convention. This milestone reports
 sign-level status and reference degrees only; it does not calculate Shadbala,
 friend/enemy dignity, Moolatrikona boundaries, cancellation, or predictions.
+
+## Graha Drishti
+
+Version 0.8 calculates directed full aspects by inclusive forward sign count.
+All seven visible grahas cast a full seventh aspect. Mars additionally casts
+full fourth and eighth aspects, Jupiter fifth and ninth aspects, and Saturn
+third and tenth aspects. This scope follows *Brihat Parashara Hora Shastra*,
+chapter 27, verse 3.
+
+Each result identifies the aspecting and aspected graha, relative sign number,
+whether it is special, geometric evidence, and the source. Rahu and Ketu may
+receive aspects but do not cast them in v0.8 because node-aspect conventions
+vary. Partial aspect strength, orb-based aspects, Rashi Drishti, effects, and
+interpretation are outside this milestone.

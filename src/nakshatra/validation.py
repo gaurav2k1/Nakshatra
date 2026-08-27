@@ -152,5 +152,11 @@ def validate_installation() -> ValidationReport:
             ),
             "nine grahas have an auditable dignity state or explicit exclusion",
         ),
+        _result(
+            "classical_aspects",
+            bool(chart.aspects)
+            and all(item.evidence and item.source for item in chart.aspects),
+            "directed full-sign aspects include evidence and source metadata",
+        ),
     )
     return ValidationReport(checks=checks)

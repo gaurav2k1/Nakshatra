@@ -6,13 +6,12 @@ Nakshatra AI is building a deterministic, mathematically verifiable Vedic
 astrology engine. Astronomical and astrological facts are computed in code;
 AI is reserved for explaining already-verified results.
 
-## Current milestone: v0.7
+## Current milestone: v0.8
 
-The seventh milestone adds deterministic sign-level planetary dignity. It
-classifies the seven visible grahas as exalted, debilitated, in an own sign, or
-neutral, while explicitly leaving Rahu and Ketu unevaluated because classical
-authorities differ. Every classification carries evidence and source scope;
-no strength score or prediction is inferred.
+The eighth milestone adds deterministic, directed Graha Drishti. It reports
+the universal seventh full aspect plus the special full aspects of Mars,
+Jupiter, and Saturn, with sign-count evidence and a classical citation. Node
+aspects remain excluded because their treatment is not uniform across sources.
 
 The v0.1 deterministic vertical slice now includes validated inputs,
 timezone-safe UTC conversion, Julian Day calculation, Lahiri sidereal planetary
@@ -58,8 +57,8 @@ are available at `GET /health/live` and `GET /health/ready`.
 Build and run the production container with:
 
 ```console
-docker build -t nakshatra-ai:0.7.0 .
-docker run --rm -p 8000:8000 nakshatra-ai:0.7.0
+docker build -t nakshatra-ai:0.8.0 .
+docker run --rm -p 8000:8000 nakshatra-ai:0.8.0
 ```
 
 `generate` emits machine-readable JSON containing the normalized UTC instant,

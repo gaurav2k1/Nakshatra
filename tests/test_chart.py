@@ -41,3 +41,5 @@ def test_generate_chart_connects_time_and_ephemeris() -> None:
     assert len(dignities) == 9
     assert dignities["jupiter"].dignity == "neutral"
     assert dignities["rahu"].dignity == "not_evaluated"
+    assert chart.aspects
+    assert all(item.evidence and item.source for item in chart.aspects)

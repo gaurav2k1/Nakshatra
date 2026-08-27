@@ -70,6 +70,7 @@ function renderChart(chart) {
   renderDasha(chart.vimshottari_dasha);
   renderRules(chart.classical_rules);
   renderDignities(chart.planetary_dignities);
+  renderAspects(chart.aspects);
   planetGrid.replaceChildren(...chart.planets.map((planet) => {
     const item = document.createElement("article");
     item.className = "planet";
@@ -135,5 +136,15 @@ function renderDignities(dignities) {
     card.innerHTML = `<span>${glyphs[item.planet]}</span><div><strong>${item.planet}</strong><small>${item.evidence}</small></div><b>${label}</b>`;
     card.title = `${item.source.title} · ${item.source.section} · ${item.source.implemented_scope}`;
     return card;
+  }));
+}
+
+function renderAspects(aspects) {
+  const list = document.querySelector("#aspects-list");
+  list.replaceChildren(...aspects.map((aspect) => {
+    const item = document.createElement("article");
+    item.className = "rule-result present";
+    item.innerHTML = `<span>${glyphs[aspect.aspecting_planet]}</span><div><strong>${aspect.aspecting_planet} → ${aspect.aspected_planet}</strong><small>${aspect.evidence}</small><em>${aspect.source}</em></div><b>${aspect.special ? "Special" : "7th"}</b>`;
+    return item;
   }));
 }
