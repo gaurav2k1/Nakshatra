@@ -34,6 +34,17 @@ _YEARS = {
 }
 
 
+class AntardashaPeriod(BaseModel):
+    """One proportional sub-period inside a Mahadasha."""
+
+    model_config = ConfigDict(frozen=True)
+
+    lord: Planet
+    start: datetime
+    end: datetime
+    duration_years: float = Field(gt=0.0)
+
+
 class MahadashaPeriod(BaseModel):
     """One complete planetary period in the Vimshottari cycle."""
 
@@ -43,6 +54,7 @@ class MahadashaPeriod(BaseModel):
     start: datetime
     end: datetime
     duration_years: int = Field(gt=0)
+    antardashas: tuple[AntardashaPeriod, ...]
 
 
 class VimshottariDasha(BaseModel):
@@ -59,6 +71,29 @@ class VimshottariDasha(BaseModel):
 
 def _duration(years: float) -> timedelta:
     return timedelta(days=years * VIMSHOTTARI_YEAR_DAYS)
+
+
+def _antardashas(
+    mahadasha_lord: Planet, period_start: datetime
+) -> tuple[AntardashaPeriod, ...]:
+    """Divide one Mahadasha proportionally in the repeating lord sequence."""
+    lord_index = _LORDS.index(mahadasha_lord)
+    cursor = period_start
+    periods = []
+    for offset in range(len(_LORDS)):
+        lord = _LORDS[(lord_index + offset) % len(_LORDS)]
+        years = _YEARS[mahadasha_lord] * _YEARS[lord] / VIMSHOTTARI_CYCLE_YEARS
+        end = cursor + _duration(years)
+        periods.append(
+            AntardashaPeriod(
+                lord=lord,
+                start=cursor,
+                end=end,
+                duration_years=years,
+            )
+        )
+        cursor = end
+    return tuple(periods)
 
 
 def vimshottari_dasha(
@@ -90,6 +125,7 @@ def vimshottari_dasha(
                 start=period_start,
                 end=period_end,
                 duration_years=_YEARS[lord],
+                antardashas=_antardashas(lord, period_start),
             )
         )
         period_start = period_end

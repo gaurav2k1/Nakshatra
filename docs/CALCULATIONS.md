@@ -168,3 +168,15 @@ strict, fully auditable form: Mercury, Jupiter, and Venus must collectively
 occupy all three of the sixth, seventh, and eighth signs from the Moon. It does
 not label one- or two-position variants as full Adhi Yoga and does not infer
 the text's promised effects or grade planetary strength.
+
+## Vimshottari Antardasha
+
+Version 0.10 subdivides each Mahadasha into nine Antardashas. The sub-period
+sequence begins with the Mahadasha lord and follows the same repeating lord
+order. For Mahadasha lord `M` and Antardasha lord `A`, the duration is
+`years(M) × years(A) / 120`. The existing explicit 365.25-day year converts
+that duration to timestamps.
+
+Tests verify that each group starts and ends exactly on its parent Mahadasha
+boundaries, contains nine contiguous sub-periods, and preserves the classical
+proportions. Pratyantardasha and interpretive effects remain outside v0.10.

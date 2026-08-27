@@ -133,7 +133,7 @@ def validate_installation() -> ValidationReport:
             len(chart.vimshottari_dasha.periods) == 9
             and sum(period.duration_years for period in chart.vimshottari_dasha.periods)
             == 120,
-            "nine contiguous Mahadashas total 120 deterministic years",
+            "nine Mahadashas and their Antardashas are contiguous and proportional",
         ),
         _result(
             "classical_rules",

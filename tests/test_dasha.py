@@ -42,6 +42,27 @@ def test_cycle_is_contiguous_and_totals_120_years() -> None:
         result.periods[-1].end - result.periods[0].start
     ).total_seconds() / 86_400
     assert total_days == pytest.approx(120 * VIMSHOTTARI_YEAR_DAYS)
+    for mahadasha in result.periods:
+        assert len(mahadasha.antardashas) == 9
+        assert mahadasha.antardashas[0].lord is mahadasha.lord
+        assert mahadasha.antardashas[0].start == mahadasha.start
+        assert mahadasha.antardashas[-1].end == mahadasha.end
+        assert all(
+            first.end == second.start
+            for first, second in zip(
+                mahadasha.antardashas[:-1],
+                mahadasha.antardashas[1:],
+                strict=True,
+            )
+        )
+
+
+def test_antardasha_lengths_are_proportional_to_lord_years() -> None:
+    result = vimshottari_dasha(BIRTH, nakshatra_position(0))
+    ketu_mahadasha = result.periods[0]
+
+    assert ketu_mahadasha.antardashas[0].duration_years == pytest.approx(7 * 7 / 120)
+    assert ketu_mahadasha.antardashas[1].duration_years == pytest.approx(7 * 20 / 120)
 
 
 def test_dasha_requires_timezone_aware_birth_instant() -> None:

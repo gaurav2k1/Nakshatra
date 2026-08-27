@@ -111,7 +111,12 @@ function renderDasha(dasha) {
     item.className = index === 0 ? "dasha-period active" : "dasha-period";
     const start = new Date(period.start).toISOString().slice(0, 10);
     const end = new Date(period.end).toISOString().slice(0, 10);
-    item.innerHTML = `<span>${glyphs[period.lord]}</span><div><strong>${period.lord}</strong><small>${start} → ${end}</small></div><b>${period.duration_years}y</b>`;
+    const subperiods = period.antardashas.map((subperiod) => {
+      const subStart = new Date(subperiod.start).toISOString().slice(0, 10);
+      const subEnd = new Date(subperiod.end).toISOString().slice(0, 10);
+      return `<li><span>${subperiod.lord}</span><small>${subStart} → ${subEnd}</small></li>`;
+    }).join("");
+    item.innerHTML = `<span>${glyphs[period.lord]}</span><div><strong>${period.lord}</strong><small>${start} → ${end}</small></div><b>${period.duration_years}y</b><details><summary>9 Antardashas</summary><ol>${subperiods}</ol></details>`;
     return item;
   }));
 }

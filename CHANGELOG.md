@@ -6,6 +6,14 @@ All notable changes to this project will be documented here. The format follows
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-08-27
+
+### Added
+
+- Nine proportional Antardashas within every Vimshottari Mahadasha.
+- Exact continuity and parent-boundary regression checks across 81 sub-periods.
+- Nested API serialization and expandable browser Antardasha timelines.
+
 ## [0.9.0] - 2026-08-27
 
 ### Added

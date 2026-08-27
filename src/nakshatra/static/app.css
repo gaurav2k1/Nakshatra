@@ -79,6 +79,10 @@ input:focus { border-color:var(--saffron); box-shadow:0 0 0 3px #d7603215; }
 .dasha-period strong { display:block; font-size:10px; text-transform:capitalize; }
 .dasha-period small { color:#82958e; font:8px ui-monospace,Consolas,monospace; }
 .dasha-period>b { color:#82958e; font:500 8px ui-monospace,Consolas,monospace; }
+.dasha-period details { grid-column:2/4; }
+.dasha-period summary { cursor:pointer; color:#82958e; font:8px ui-monospace,Consolas,monospace; }
+.dasha-period ol { margin:6px 0 0; padding:0; list-style:none; }
+.dasha-period li { padding:3px 0; display:flex; justify-content:space-between; gap:8px; color:#9fb0aa; font:8px ui-monospace,Consolas,monospace; }
 .dasha-period.active { background:#ffffff08; box-shadow:inset 2px 0 var(--gold); }
 .dasha-period.active>span,.dasha-period.active>b { color:var(--gold); }
 .rules-panel { margin-top:16px; padding:14px; border:1px solid #ffffff20; }
