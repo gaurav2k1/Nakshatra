@@ -123,3 +123,20 @@ traditional interpretation.
 Each API result contains the stable rule identifier, category, matched state,
 human-readable placement evidence, and source metadata. Negative results also
 retain evidence so callers can verify why a condition did not match.
+
+## Planetary dignity
+
+Version 0.7 classifies the seven visible grahas by sidereal sign as exalted,
+debilitated, in an own sign, or neutral. The exaltation signs and deepest
+degrees follow *Brihat Parashara Hora Shastra*, chapter 3, verses 49-50:
+Sun Aries 10°, Moon Taurus 3°, Mars Capricorn 28°, Mercury Virgo 15°,
+Jupiter Cancer 5°, Venus Pisces 27°, and Saturn Libra 20°. Debilitation is the
+opposite sign at the same degree. Sign rulership in the same chapter supplies
+the own-sign classification. When Mercury is in Virgo, exaltation takes
+precedence over the overlapping own-sign label.
+
+Rahu and Ketu return `not_evaluated`. Classical authorities disagree about
+node exaltation and debilitation, as noted in *Phaladeepika* chapter 1, so the
+engine does not silently choose a disputed convention. This milestone reports
+sign-level status and reference degrees only; it does not calculate Shadbala,
+friend/enemy dignity, Moolatrikona boundaries, cancellation, or predictions.

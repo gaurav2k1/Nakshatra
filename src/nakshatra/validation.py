@@ -143,5 +143,14 @@ def validate_installation() -> ValidationReport:
             ),
             "three auditable rules include evidence and an identified source",
         ),
+        _result(
+            "planetary_dignities",
+            len(chart.planetary_dignities) == 9
+            and all(
+                item.evidence and item.source.title
+                for item in chart.planetary_dignities
+            ),
+            "nine grahas have an auditable dignity state or explicit exclusion",
+        ),
     )
     return ValidationReport(checks=checks)

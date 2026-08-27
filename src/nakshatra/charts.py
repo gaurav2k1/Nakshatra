@@ -5,6 +5,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
 from nakshatra.astrology.dasha import VimshottariDasha, vimshottari_dasha
+from nakshatra.astrology.dignities import PlanetaryDignity, evaluate_dignity
 from nakshatra.astrology.divisional import (
     Division,
     DivisionalChart,
@@ -40,6 +41,7 @@ class BirthChart(BaseModel):
     classical_rules: tuple[
         ClassicalRuleResult, ClassicalRuleResult, ClassicalRuleResult
     ]
+    planetary_dignities: tuple[PlanetaryDignity, ...]
 
 
 def generate_chart(
@@ -76,6 +78,9 @@ def generate_chart(
             for position in planets
         )
     )
+    planetary_dignities = tuple(
+        evaluate_dignity(position.planet, position.sign.sign) for position in planets
+    )
     return BirthChart(
         birth=birth,
         utc_datetime=utc_datetime,
@@ -87,4 +92,5 @@ def generate_chart(
         divisional_charts=divisional_charts,
         vimshottari_dasha=dasha,
         classical_rules=classical_rules,
+        planetary_dignities=planetary_dignities,
     )

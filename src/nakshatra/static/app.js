@@ -69,6 +69,7 @@ function renderChart(chart) {
   renderKundli(chart, document.querySelector(".chart-tab.active").dataset.chart);
   renderDasha(chart.vimshottari_dasha);
   renderRules(chart.classical_rules);
+  renderDignities(chart.planetary_dignities);
   planetGrid.replaceChildren(...chart.planets.map((planet) => {
     const item = document.createElement("article");
     item.className = "planet";
@@ -122,5 +123,17 @@ function renderRules(rules) {
     item.innerHTML = `<span>${rule.present ? "✓" : "—"}</span><div><strong>${rule.name}</strong><small>${rule.evidence[0]}</small><em>${rule.source.title} · ${rule.source.section}</em></div><b>${rule.present ? "Matched" : "Not matched"}</b>`;
     item.title = rule.source.implemented_scope;
     return item;
+  }));
+}
+
+function renderDignities(dignities) {
+  const list = document.querySelector("#dignity-list");
+  list.replaceChildren(...dignities.map((item) => {
+    const card = document.createElement("article");
+    card.className = `dignity ${item.dignity}`;
+    const label = item.dignity.replace("_", " ");
+    card.innerHTML = `<span>${glyphs[item.planet]}</span><div><strong>${item.planet}</strong><small>${item.evidence}</small></div><b>${label}</b>`;
+    card.title = `${item.source.title} · ${item.source.section} · ${item.source.implemented_scope}`;
+    return card;
   }));
 }

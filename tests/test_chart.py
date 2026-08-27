@@ -37,3 +37,7 @@ def test_generate_chart_connects_time_and_ephemeris() -> None:
     assert rules["budha_aditya"].present
     assert rules["gajakesari_basic"].present
     assert not rules["mangala_lagna_phaladeepika"].present
+    dignities = {item.planet: item for item in chart.planetary_dignities}
+    assert len(dignities) == 9
+    assert dignities["jupiter"].dignity == "neutral"
+    assert dignities["rahu"].dignity == "not_evaluated"

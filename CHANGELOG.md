@@ -6,6 +6,15 @@ All notable changes to this project will be documented here. The format follows
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-08-27
+
+### Added
+
+- Deterministic exalted, debilitated, own-sign, and neutral classifications.
+- Deep exaltation and debilitation degree metadata for seven visible grahas.
+- Explicit non-evaluation of disputed Rahu and Ketu dignities.
+- Source-scoped evidence in chart JSON, validation, tests, and browser UI.
+
 ## [0.6.0] - 2026-08-27
 
 ### Added
