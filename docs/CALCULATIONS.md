@@ -1,0 +1,54 @@
+# v0.1 Calculation Methodology
+
+## Time conversion
+
+Birth input uses a civil date and time plus an IANA timezone name. Nakshatra
+converts this to UTC with Python's `zoneinfo` database. It tests both PEP 495
+fold values by round-tripping through UTC, rejecting nonexistent DST times and
+ambiguous repeated times rather than guessing an instant.
+
+## Julian Day
+
+Julian Day follows Jean Meeus, *Astronomical Algorithms*, second edition,
+chapter 7. Inputs are converted to UTC first. Python uses the proleptic
+Gregorian calendar, so this implementation does the same.
+
+The J2000 reference instant `2000-01-01T12:00:00Z` must produce Julian Day
+`2451545.0`.
+
+## Planet positions
+
+Positions are calculated with pyswisseph 2.10 using `swe_calc_ut` and these
+flags:
+
+- Swiss Ephemeris requested
+- Speed requested
+- Sidereal positions requested
+
+The sidereal mode is Lahiri. Results are apparent geocentric ecliptic
+longitudes. The engine currently calculates Sun, Moon, Mercury, Venus, Mars,
+Jupiter, Saturn, and the mean lunar ascending node (Rahu). Ketu is derived at
+exactly 180° from Rahu. Retrograde state is determined from the sign of
+longitudinal speed.
+
+Swiss Ephemeris configuration is process-global. The integration serializes
+configuration and calculations with a reentrant lock and reapplies Lahiri mode
+for every request, preventing concurrent callers from changing the result.
+
+When `NAKSHATRA_EPHEMERIS_PATH` is unset or the requested Swiss data files are
+unavailable, the underlying library may use its built-in Moshier ephemeris.
+Production deployments requiring Swiss `.se1` files should configure the path
+and verify it with `nakshatra doctor`.
+
+## Signs
+
+Longitudes are normalized to `[0°, 360°)`. The sidereal zodiac consists of
+twelve equal 30° signs beginning with Aries at 0°. Sign calculation is a direct
+deterministic partition; it does not involve AI interpretation.
+
+## Golden tolerance
+
+The J2000 Lahiri fixture records expected values produced by Swiss Ephemeris.
+Regression comparisons use an absolute tolerance of one arc second
+(`1 / 3600` degree). Ketu's opposition to Rahu is verified independently.
+

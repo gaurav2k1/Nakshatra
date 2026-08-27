@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Generate deterministic Lahiri sidereal Vedic astrology chart facts.">
+    <title>Nakshatra AI — Verified Vedic chart facts</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/app.css') }}">
+    <script src="{{ url_for('static', path='/app.js') }}" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Nakshatra AI home">
+        <span class="brand-mark" aria-hidden="true">न</span>
+        <span>Nakshatra <strong>AI</strong></span>
+      </a>
+      <div class="status"><span></span> Deterministic engine online</div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Lahiri sidereal · Swiss Ephemeris</p>
+        <h1>Your sky, calculated.<br><em>Every degree explainable.</em></h1>
+        <p class="lede">Enter an exact birth moment to generate verified planetary facts. No predictions, no invented calculations.</p>
+      </section>
+
+      <section class="workspace" aria-label="Birth chart generator">
+        <form id="birth-form" class="input-panel">
+          <div class="panel-heading">
+            <span class="step">01</span>
+            <div><h2>Birth details</h2><p>Precision begins with an exact time and place.</p></div>
+          </div>
+
+          <div class="field-grid">
+            <label>Date of birth<input name="date" type="date" value="2000-01-01" required></label>
+            <label>Local time<input name="time" type="time" value="17:30" step="1" required></label>
+            <label class="wide">IANA timezone<input name="timezone" value="Asia/Kolkata" placeholder="Asia/Kolkata" required></label>
+            <label>Latitude<input name="latitude" type="number" value="13.0827" min="-90" max="90" step="any" required></label>
+            <label>Longitude<input name="longitude" type="number" value="80.2707" min="-180" max="180" step="any" required></label>
+          </div>
+
+          <button class="primary" type="submit"><span>Generate verified chart</span><span aria-hidden="true">→</span></button>
+          <p class="privacy">Your birth details are calculated for this request and are not stored.</p>
+        </form>
+
+        <aside class="result-panel" aria-live="polite">
+          <div id="empty-state" class="empty-state">
+            <div class="orbit" aria-hidden="true"><span>☉</span></div>
+            <p class="eyebrow">Awaiting coordinates</p>
+            <h2>Your verified chart will appear here</h2>
+            <p>Planetary longitudes, signs, retrograde state, Julian Day, and ayanamsa—all from deterministic code.</p>
+          </div>
+
+          <div id="results" class="results" hidden>
+            <div class="result-title"><div><p class="eyebrow">Verified calculation</p><h2>Planetary positions</h2></div><span id="ayanamsa" class="pill"></span></div>
+            <div class="metrics"><div><span>UTC instant</span><strong id="utc"></strong></div><div><span>Julian Day UT</span><strong id="jd"></strong></div></div>
+            <div id="planet-grid" class="planet-grid"></div>
+            <p class="method">Apparent geocentric sidereal longitudes · Mean lunar node · Ketu exactly opposite Rahu</p>
+          </div>
+
+          <div id="error" class="error" role="alert" hidden></div>
+        </aside>
+      </section>
+
+      <section class="trust-strip" aria-label="Calculation guarantees">
+        <article><span>01</span><h3>Deterministic</h3><p>The same inputs always produce the same calculated result.</p></article>
+        <article><span>02</span><h3>Verifiable</h3><p>Golden references are checked to one arc second where appropriate.</p></article>
+        <article><span>03</span><h3>Explainable</h3><p>AI never calculates astrology; it may only explain verified facts.</p></article>
+      </section>
+    </main>
+
+    <footer><span>Nakshatra AI v{{ version }}</span><a href="/api/docs">API documentation</a><span>Open-source calculation engine</span></footer>
+  </body>
+</html>
