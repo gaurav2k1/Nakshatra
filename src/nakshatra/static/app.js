@@ -8,6 +8,7 @@ const kundliChart = document.querySelector("#kundli-chart");
 const chartTabs = document.querySelectorAll(".chart-tab");
 const divisionTabs = document.querySelectorAll(".division-tab");
 let currentChart = null;
+let currentPayload = null;
 
 const signs = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
 const glyphs = { sun: "☉", moon: "☾", mercury: "☿", venus: "♀", mars: "♂", jupiter: "♃", saturn: "♄", rahu: "☊", ketu: "☋" };
@@ -52,12 +53,38 @@ form.addEventListener("submit", async (event) => {
       throw new Error(problem.detail?.[0]?.msg || "The chart could not be calculated.");
     }
     renderChart(await response.json());
+    currentPayload = payload;
   } catch (error) {
     errorBox.textContent = error.message;
     errorBox.hidden = false;
   } finally {
     submitButton.disabled = false;
     submitButton.firstElementChild.textContent = "Generate verified chart";
+  }
+});
+
+document.querySelector("#download-report").addEventListener("click", async () => {
+  if (!currentPayload) return;
+  const button = document.querySelector("#download-report");
+  button.disabled = true;
+  try {
+    const response = await fetch("/api/v1/reports/pdf", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(currentPayload),
+    });
+    if (!response.ok) throw new Error("The PDF report could not be generated.");
+    const url = URL.createObjectURL(await response.blob());
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "nakshatra-chart.pdf";
+    link.click();
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    errorBox.textContent = error.message;
+    errorBox.hidden = false;
+  } finally {
+    button.disabled = false;
   }
 });
 

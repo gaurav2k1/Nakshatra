@@ -1,4 +1,7 @@
+from io import BytesIO
+
 from fastapi.testclient import TestClient
+from pypdf import PdfReader
 
 from nakshatra.api.app import app
 
@@ -19,7 +22,7 @@ def test_live_and_ready_health_checks() -> None:
     ready = client.get("/health/ready")
 
     assert live.status_code == 200
-    assert live.json() == {"status": "ok", "version": "0.10.0"}
+    assert live.json() == {"status": "ok", "version": "0.11.0"}
     assert ready.status_code == 200
     assert ready.json()["status"] == "ready"
 
@@ -75,3 +78,27 @@ def test_generate_chart_api_rejects_invalid_input() -> None:
 
     assert response.status_code == 422
     assert response.json()["detail"]
+
+
+def test_pdf_report_is_downloadable_and_contains_verified_sections() -> None:
+    response = client.post(
+        "/api/v1/reports/pdf",
+        json={
+            "date": "2000-01-01",
+            "time": "17:30:00",
+            "timezone": "Asia/Kolkata",
+            "coordinates": {"latitude": 13.0827, "longitude": 80.2707},
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/pdf"
+    assert response.content.startswith(b"%PDF-")
+    assert len(response.content) > 5_000
+    reader = PdfReader(BytesIO(response.content))
+    extracted = "\n".join(page.extract_text() or "" for page in reader.pages)
+    assert len(reader.pages) == 3
+    assert "Planetary positions" in extracted
+    assert "Auditable classical rules" in extracted
+    assert "Vimshottari timeline" in extracted
+    assert "no\nprediction" in extracted or "no prediction" in extracted

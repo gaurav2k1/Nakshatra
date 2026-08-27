@@ -6,6 +6,15 @@ All notable changes to this project will be documented here. The format follows
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-08-27
+
+### Added
+
+- Deterministic, prediction-free PDF chart report generation.
+- Versioned report download API and browser download control.
+- Structural extraction tests and full rendered-page visual verification.
+- Consistent tables, page footers, page numbering, and methodology disclosure.
+
 ## [0.10.0] - 2026-08-27
 
 ### Added

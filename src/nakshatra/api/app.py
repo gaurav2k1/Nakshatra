@@ -5,13 +5,14 @@ from typing import Any
 
 import uvicorn
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from nakshatra import __version__
 from nakshatra.charts import BirthChart, generate_chart
 from nakshatra.models import BirthInput
+from nakshatra.report.pdf import render_chart_pdf
 from nakshatra.validation import doctor
 
 _PACKAGE_ROOT = Path(__file__).resolve().parent.parent
@@ -69,6 +70,17 @@ def ready() -> dict[str, str]:
 def create_chart(birth: BirthInput) -> BirthChart:
     """Calculate verified chart facts from validated birth input."""
     return generate_chart(birth)
+
+
+@app.post("/api/v1/reports/pdf", tags=["reports"])
+def create_pdf_report(birth: BirthInput) -> Response:
+    """Render a downloadable report containing only verified chart facts."""
+    content = render_chart_pdf(generate_chart(birth))
+    return Response(
+        content=content,
+        media_type="application/pdf",
+        headers={"Content-Disposition": 'attachment; filename="nakshatra-chart.pdf"'},
+    )
 
 
 def run() -> None:
