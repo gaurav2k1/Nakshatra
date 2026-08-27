@@ -6,7 +6,10 @@ from threading import RLock
 import swisseph as swe  # type: ignore[import-not-found]
 from pydantic import BaseModel, ConfigDict, Field
 
+from nakshatra.astrology.houses import HouseChart
+from nakshatra.astrology.nakshatras import nakshatra_position
 from nakshatra.astrology.signs import sign_position
+from nakshatra.models import Coordinates
 from nakshatra.planets import Planet, PlanetPosition
 
 
@@ -15,7 +18,7 @@ class EphemerisError(RuntimeError):
 
 
 class EphemerisResult(BaseModel):
-    """All v0.1 graha positions for one UT Julian Day."""
+    """All supported graha positions for one UT Julian Day."""
 
     model_config = ConfigDict(frozen=True)
 
@@ -83,10 +86,11 @@ class SwissEphemeris:
             speed_longitude=speed,
             retrograde=speed < 0.0,
             sign=sign_position(longitude),
+            nakshatra=nakshatra_position(longitude),
         )
 
     def positions(self, julian_day_ut: float) -> EphemerisResult:
-        """Calculate the complete ordered set of v0.1 graha positions."""
+        """Calculate the complete ordered set of supported graha positions."""
         with _EPHEMERIS_LOCK:
             self._configure()
             ayanamsa = swe.get_ayanamsa_ut(julian_day_ut) % 360.0
@@ -110,4 +114,27 @@ class SwissEphemeris:
             speed_longitude=rahu.speed_longitude,
             retrograde=rahu.retrograde,
             sign=sign_position(longitude),
+            nakshatra=nakshatra_position(longitude),
+        )
+
+    def houses(self, julian_day_ut: float, coordinates: Coordinates) -> HouseChart:
+        """Calculate the sidereal Ascendant and twelve whole-sign cusps."""
+        with _EPHEMERIS_LOCK:
+            self._configure()
+            try:
+                cusps, ascmc = swe.houses_ex(
+                    julian_day_ut,
+                    coordinates.latitude,
+                    coordinates.longitude,
+                    b"W",
+                    swe.FLG_SIDEREAL,
+                )
+            except swe.Error as error:
+                raise EphemerisError(
+                    f"Swiss Ephemeris failed to calculate houses: {error}"
+                ) from error
+        ascendant = ascmc[0] % 360.0
+        return HouseChart(
+            ascendant=sign_position(ascendant),
+            cusps=tuple(cusp % 360.0 for cusp in cusps),
         )

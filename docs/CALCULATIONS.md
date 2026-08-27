@@ -46,9 +46,24 @@ Longitudes are normalized to `[0°, 360°)`. The sidereal zodiac consists of
 twelve equal 30° signs beginning with Aries at 0°. Sign calculation is a direct
 deterministic partition; it does not involve AI interpretation.
 
+## Ascendant and houses
+
+The sidereal Ascendant is calculated with Swiss Ephemeris `swe_houses_ex` at
+the UT Julian Day and geographic coordinates, using the Lahiri sidereal mode.
+Nakshatra AI v0.3 uses whole-sign houses: the Ascendant's sign is house one and
+each subsequent 30-degree sign is the next house. Cusps therefore lie on exact
+sign boundaries. Planetary house assignment is derived from the difference
+between the planet's sign index and Ascendant sign index.
+
+## Nakshatras and Padas
+
+The 360-degree sidereal zodiac is divided into 27 equal Nakshatras of 13
+degrees 20 arcminutes, beginning with Ashwini at 0 degrees Aries. Each
+Nakshatra contains four equal Padas of 3 degrees 20 arcminutes. Boundary and
+normalization behavior is covered by property-based tests.
+
 ## Golden tolerance
 
 The J2000 Lahiri fixture records expected values produced by Swiss Ephemeris.
 Regression comparisons use an absolute tolerance of one arc second
 (`1 / 3600` degree). Ketu's opposition to Rahu is verified independently.
-

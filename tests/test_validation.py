@@ -22,4 +22,6 @@ def test_validate_installation_runs_calculation_and_serialization_checks() -> No
         "julian_day",
         "planet_longitudes",
         "serialization",
+        "houses",
+        "nakshatras",
     }

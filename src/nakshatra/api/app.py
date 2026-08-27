@@ -67,7 +67,7 @@ def ready() -> dict[str, str]:
 
 @app.post("/api/v1/charts", response_model=BirthChart, tags=["charts"])
 def create_chart(birth: BirthInput) -> BirthChart:
-    """Calculate verified v0.2 chart facts from validated birth input."""
+    """Calculate verified chart facts from validated birth input."""
     return generate_chart(birth)
 
 

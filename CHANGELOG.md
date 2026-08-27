@@ -6,6 +6,17 @@ All notable changes to this project will be documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-08-27
+
+### Added
+
+- Lahiri sidereal Ascendant calculation through Swiss Ephemeris.
+- Twelve whole-sign house cusps and deterministic planetary house assignment.
+- All 27 Nakshatras with four-Pada calculation and property-based tests.
+- Enriched API and JSON chart output containing houses and Nakshatra positions.
+- Responsive North Indian house and South Indian sign chart views.
+- Expanded installation validation and J2000 golden reference data.
+
 ## [0.2.0] - 2026-08-27
 
 ### Added

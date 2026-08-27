@@ -4,15 +4,16 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
+from nakshatra.astrology.houses import HouseChart, house_for_longitude
 from nakshatra.astronomy.ephemeris import SwissEphemeris
 from nakshatra.astronomy.julian_day import julian_day
 from nakshatra.models import BirthInput
-from nakshatra.planets import PlanetPosition
+from nakshatra.planets import ChartPlanetPosition
 from nakshatra.time import to_utc
 
 
 class BirthChart(BaseModel):
-    """Serializable v0.1 birth-chart calculation result."""
+    """Serializable deterministic birth-chart calculation result."""
 
     model_config = ConfigDict(frozen=True)
 
@@ -21,21 +22,32 @@ class BirthChart(BaseModel):
     julian_day_ut: float
     ayanamsa: str
     ayanamsa_degrees: float
-    planets: tuple[PlanetPosition, ...]
+    houses: HouseChart
+    planets: tuple[ChartPlanetPosition, ...]
 
 
 def generate_chart(
     birth: BirthInput, ephemeris: SwissEphemeris | None = None
 ) -> BirthChart:
-    """Generate deterministic v0.1 chart facts from validated birth input."""
+    """Generate deterministic chart facts from validated birth input."""
     utc_datetime = to_utc(birth)
     jd_ut = julian_day(utc_datetime)
-    result = (ephemeris or SwissEphemeris()).positions(jd_ut)
+    calculator = ephemeris or SwissEphemeris()
+    result = calculator.positions(jd_ut)
+    houses = calculator.houses(jd_ut, birth.coordinates)
+    planets = tuple(
+        ChartPlanetPosition(
+            **position.model_dump(),
+            house=house_for_longitude(position.longitude, houses.ascendant.longitude),
+        )
+        for position in result.planets
+    )
     return BirthChart(
         birth=birth,
         utc_datetime=utc_datetime,
         julian_day_ut=jd_ut,
         ayanamsa=result.ayanamsa,
         ayanamsa_degrees=result.ayanamsa_degrees,
-        planets=result.planets,
+        houses=houses,
+        planets=planets,
     )

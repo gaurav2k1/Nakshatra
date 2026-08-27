@@ -18,3 +18,7 @@ def test_generate_chart_connects_time_and_ephemeris() -> None:
     assert chart.utc_datetime.isoformat() == "2000-01-01T12:00:00+00:00"
     assert len(chart.planets) == 9
     assert chart.model_dump(mode="json")["birth"]["timezone"] == "Asia/Kolkata"
+    assert chart.houses.ascendant.sign.name == "GEMINI"
+    assert chart.planets[0].house == 7
+    assert chart.planets[0].nakshatra.nakshatra.value == "purva_ashadha"
+    assert chart.planets[1].nakshatra.pada == 4

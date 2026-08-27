@@ -107,5 +107,20 @@ def validate_installation() -> ValidationReport:
             and chart.utc_datetime.tzinfo is UTC,
             "JSON retained the reference UTC instant",
         ),
+        _result(
+            "houses",
+            len(chart.houses.cusps) == 12
+            and 0.0 <= chart.houses.ascendant.longitude < 360.0
+            and all(1 <= planet.house <= 12 for planet in chart.planets),
+            "Ascendant, twelve whole-sign cusps, and house assignments are valid",
+        ),
+        _result(
+            "nakshatras",
+            all(
+                0 <= planet.nakshatra.index < 27 and 1 <= planet.nakshatra.pada <= 4
+                for planet in chart.planets
+            ),
+            "all grahas have valid Nakshatra and Pada assignments",
+        ),
     )
     return ValidationReport(checks=checks)

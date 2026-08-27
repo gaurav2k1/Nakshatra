@@ -4,11 +4,12 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from nakshatra.astrology.nakshatras import NakshatraPosition
 from nakshatra.astrology.signs import SignPosition
 
 
 class Planet(StrEnum):
-    """Vedic grahas supported by the v0.1 position engine."""
+    """Vedic grahas supported by the deterministic position engine."""
 
     SUN = "sun"
     MOON = "moon"
@@ -33,3 +34,10 @@ class PlanetPosition(BaseModel):
     speed_longitude: float
     retrograde: bool
     sign: SignPosition
+    nakshatra: NakshatraPosition
+
+
+class ChartPlanetPosition(PlanetPosition):
+    """A planet position assigned to a whole-sign house."""
+
+    house: int = Field(ge=1, le=12)

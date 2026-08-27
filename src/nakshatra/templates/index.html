@@ -54,6 +54,14 @@
           <div id="results" class="results" hidden>
             <div class="result-title"><div><p class="eyebrow">Verified calculation</p><h2>Planetary positions</h2></div><span id="ayanamsa" class="pill"></span></div>
             <div class="metrics"><div><span>UTC instant</span><strong id="utc"></strong></div><div><span>Julian Day UT</span><strong id="jd"></strong></div></div>
+            <div class="chart-toolbar">
+              <div><span>Ascendant</span><strong id="ascendant"></strong></div>
+              <div class="chart-tabs" role="group" aria-label="Chart style">
+                <button type="button" class="chart-tab active" data-chart="north">North Indian</button>
+                <button type="button" class="chart-tab" data-chart="south">South Indian</button>
+              </div>
+            </div>
+            <div id="kundli-chart" class="kundli-chart north" aria-label="Kundli chart"></div>
             <div id="planet-grid" class="planet-grid"></div>
             <p class="method">Apparent geocentric sidereal longitudes · Mean lunar node · Ketu exactly opposite Rahu</p>
           </div>
