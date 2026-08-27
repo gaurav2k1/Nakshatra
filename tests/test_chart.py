@@ -1,5 +1,7 @@
 from datetime import date, time
 
+import pytest
+
 from nakshatra.charts import generate_chart
 from nakshatra.models import BirthInput, Coordinates
 
@@ -28,3 +30,6 @@ def test_generate_chart_connects_time_and_ephemeris() -> None:
     assert navamsa.ascendant.sign.name == "CAPRICORN"
     assert navamsa.planets[0].sign.name == "LEO"
     assert navamsa.planets[0].house == 8
+    assert chart.vimshottari_dasha.birth_lord.value == "rahu"
+    assert len(chart.vimshottari_dasha.periods) == 9
+    assert chart.vimshottari_dasha.balance_years == pytest.approx(0.7147, abs=0.001)

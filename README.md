@@ -6,12 +6,12 @@ Nakshatra AI is building a deterministic, mathematically verifiable Vedic
 astrology engine. Astronomical and astrological facts are computed in code;
 AI is reserved for explaining already-verified results.
 
-## Current milestone: v0.4
+## Current milestone: v0.5
 
-The fourth milestone adds deterministic D1 Rāśi and D9 Navāṁśa charts for the
-Ascendant and all nine grahas. Both divisional charts can be explored in North
-and South Indian browser views. The web layer displays verified chart facts;
-it does not add predictions or AI calculations.
+The fifth milestone adds deterministic Vimshottari Mahadasha calculations from
+the Moon's verified Nakshatra position. It reports the Mahadasha active at
+birth, its remaining balance, and the complete nine-lord 120-year cycle. The
+web layer displays calculated periods without attaching predictions.
 
 The v0.1 deterministic vertical slice now includes validated inputs,
 timezone-safe UTC conversion, Julian Day calculation, Lahiri sidereal planetary
@@ -57,8 +57,8 @@ are available at `GET /health/live` and `GET /health/ready`.
 Build and run the production container with:
 
 ```console
-docker build -t nakshatra-ai:0.4.0 .
-docker run --rm -p 8000:8000 nakshatra-ai:0.4.0
+docker build -t nakshatra-ai:0.5.0 .
+docker run --rm -p 8000:8000 nakshatra-ai:0.5.0
 ```
 
 `generate` emits machine-readable JSON containing the normalized UTC instant,

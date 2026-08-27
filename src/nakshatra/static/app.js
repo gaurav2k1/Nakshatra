@@ -67,6 +67,7 @@ function renderChart(chart) {
   document.querySelector("#jd").textContent = chart.julian_day_ut.toFixed(6);
   document.querySelector("#ayanamsa").textContent = `${chart.ayanamsa} ${degrees(chart.ayanamsa_degrees)}`;
   renderKundli(chart, document.querySelector(".chart-tab.active").dataset.chart);
+  renderDasha(chart.vimshottari_dasha);
   planetGrid.replaceChildren(...chart.planets.map((planet) => {
     const item = document.createElement("article");
     item.className = "planet";
@@ -96,4 +97,18 @@ function renderKundli(chart, style) {
     return cell;
   });
   kundliChart.replaceChildren(...cells);
+}
+
+function renderDasha(dasha) {
+  document.querySelector("#dasha-title").textContent = `${dasha.birth_lord} at birth`;
+  document.querySelector("#dasha-balance").textContent = `${dasha.balance_years.toFixed(2)} years remaining`;
+  const timeline = document.querySelector("#dasha-timeline");
+  timeline.replaceChildren(...dasha.periods.map((period, index) => {
+    const item = document.createElement("article");
+    item.className = index === 0 ? "dasha-period active" : "dasha-period";
+    const start = new Date(period.start).toISOString().slice(0, 10);
+    const end = new Date(period.end).toISOString().slice(0, 10);
+    item.innerHTML = `<span>${glyphs[period.lord]}</span><div><strong>${period.lord}</strong><small>${start} → ${end}</small></div><b>${period.duration_years}y</b>`;
+    return item;
+  }));
 }

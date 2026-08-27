@@ -6,6 +6,17 @@ All notable changes to this project will be documented here. The format follows
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-08-27
+
+### Added
+
+- Deterministic Vimshottari Mahadasha lord and birth-balance calculation.
+- Complete contiguous nine-lord, 120-year Mahadasha cycle.
+- Explicit 365.25-day Dasha-year conversion convention.
+- Vimshottari output in the CLI and versioned chart API.
+- Browser timeline with active-at-birth period and remaining balance.
+- Boundary, continuity, duration, validation, and golden-reference tests.
+
 ## [0.4.0] - 2026-08-27
 
 ### Added

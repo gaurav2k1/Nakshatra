@@ -5,6 +5,8 @@
   "whole_sign_cusps": [60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 0, 30],
   "navamsa_ascendant_sign": 9,
   "navamsa_sun_sign": 4,
+  "vimshottari_birth_lord": "rahu",
+  "vimshottari_balance_years": 0.7147,
   "positions": {
     "sun": 256.51569718931427,
     "moon": 199.47055295238044,

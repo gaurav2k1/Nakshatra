@@ -128,5 +128,12 @@ def validate_installation() -> ValidationReport:
             and all(len(item.planets) == 9 for item in chart.divisional_charts),
             "D1 Rasi and D9 Navamsa contain nine graha placements",
         ),
+        _result(
+            "vimshottari_dasha",
+            len(chart.vimshottari_dasha.periods) == 9
+            and sum(period.duration_years for period in chart.vimshottari_dasha.periods)
+            == 120,
+            "nine contiguous Mahadashas total 120 deterministic years",
+        ),
     )
     return ValidationReport(checks=checks)

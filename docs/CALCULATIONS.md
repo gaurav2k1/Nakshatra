@@ -82,3 +82,22 @@ whole-sign houses are assigned relative to the divisional Ascendant.
 This construction follows the classical Varga scheme described in Brihat
 Parashara Hora Shastra's treatment of divisional charts. The implementation is
 a pure numerical transformation and does not attach interpretive claims.
+
+## Vimshottari Mahadasha
+
+The birth Mahadasha is selected from the Moon's sidereal Nakshatra. The
+sequence of lords and traditional lengths is Ketu 7, Venus 20, Sun 6, Moon 10,
+Mars 7, Rahu 18, Jupiter 16, Saturn 19, and Mercury 17 years, totaling 120
+years. The sequence repeats every nine Nakshatras beginning with Ashwini ruled
+by Ketu.
+
+The fraction of the birth Mahadasha already elapsed is the Moon's degrees
+traversed within its Nakshatra divided by 13 degrees 20 arcminutes. The balance
+is the complementary fraction multiplied by that lord's period length.
+
+Nakshatra AI converts traditional Dasha years to timestamps using an explicit
+365.25-day year. This is a documented computational convention rather than a
+claim that a Dasha year equals a civil calendar year. The sequence follows the
+Vimshottari scheme described in Brihat Parashara Hora Shastra. v0.5 calculates
+Mahadasha periods only; Antardasha subdivisions and interpretations are outside
+this milestone.
