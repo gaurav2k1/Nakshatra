@@ -22,3 +22,9 @@ def test_generate_chart_connects_time_and_ephemeris() -> None:
     assert chart.planets[0].house == 7
     assert chart.planets[0].nakshatra.nakshatra.value == "purva_ashadha"
     assert chart.planets[1].nakshatra.pada == 4
+    assert [item.division for item in chart.divisional_charts] == ["D1", "D9"]
+    rasi, navamsa = chart.divisional_charts
+    assert rasi.ascendant.sign.name == "GEMINI"
+    assert navamsa.ascendant.sign.name == "CAPRICORN"
+    assert navamsa.planets[0].sign.name == "LEO"
+    assert navamsa.planets[0].house == 8

@@ -6,6 +6,18 @@ All notable changes to this project will be documented here. The format follows
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-08-27
+
+### Added
+
+- Reusable deterministic divisional-chart transformation engine.
+- D1 Rāśi positions for the Ascendant and all supported grahas.
+- D9 Navāṁśa positions and divisional whole-sign house assignments.
+- D1/D9 output in the CLI and versioned chart API.
+- Interactive Rāśi/Navāṁśa switching for North and South Indian views.
+- Property-based Navāṁśa boundary and normalization tests.
+- Divisional-chart installation validation and golden reference fields.
+
 ## [0.3.0] - 2026-08-27
 
 ### Added

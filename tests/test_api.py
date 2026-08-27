@@ -19,7 +19,7 @@ def test_live_and_ready_health_checks() -> None:
     ready = client.get("/health/ready")
 
     assert live.status_code == 200
-    assert live.json() == {"status": "ok", "version": "0.3.0"}
+    assert live.json() == {"status": "ok", "version": "0.4.0"}
     assert ready.status_code == 200
     assert ready.json()["status"] == "ready"
 
@@ -44,6 +44,11 @@ def test_generate_chart_api_returns_verified_facts() -> None:
     assert payload["houses"]["ascendant"]["sign"] == 2
     assert payload["planets"][0]["house"] == 7
     assert payload["planets"][0]["nakshatra"]["nakshatra"] == "purva_ashadha"
+    assert [chart["division"] for chart in payload["divisional_charts"]] == [
+        "D1",
+        "D9",
+    ]
+    assert payload["divisional_charts"][1]["ascendant"]["sign"] == 9
 
 
 def test_generate_chart_api_rejects_invalid_input() -> None:

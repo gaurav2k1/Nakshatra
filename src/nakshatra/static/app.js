@@ -6,6 +6,7 @@ const planetGrid = document.querySelector("#planet-grid");
 const submitButton = form.querySelector("button[type='submit']");
 const kundliChart = document.querySelector("#kundli-chart");
 const chartTabs = document.querySelectorAll(".chart-tab");
+const divisionTabs = document.querySelectorAll(".division-tab");
 let currentChart = null;
 
 const signs = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
@@ -17,6 +18,11 @@ chartTabs.forEach((tab) => tab.addEventListener("click", () => {
   chartTabs.forEach((item) => item.classList.toggle("active", item === tab));
   kundliChart.className = `kundli-chart ${tab.dataset.chart}`;
   if (currentChart) renderKundli(currentChart, tab.dataset.chart);
+}));
+
+divisionTabs.forEach((tab) => tab.addEventListener("click", () => {
+  divisionTabs.forEach((item) => item.classList.toggle("active", item === tab));
+  if (currentChart) renderKundli(currentChart, document.querySelector(".chart-tab.active").dataset.chart);
 }));
 
 form.addEventListener("submit", async (event) => {
@@ -60,7 +66,6 @@ function renderChart(chart) {
   document.querySelector("#utc").textContent = chart.utc_datetime.replace("T", " ");
   document.querySelector("#jd").textContent = chart.julian_day_ut.toFixed(6);
   document.querySelector("#ayanamsa").textContent = `${chart.ayanamsa} ${degrees(chart.ayanamsa_degrees)}`;
-  document.querySelector("#ascendant").textContent = `${signs[chart.houses.ascendant.sign]} ${degrees(chart.houses.ascendant.degrees_in_sign)}`;
   renderKundli(chart, document.querySelector(".chart-tab.active").dataset.chart);
   planetGrid.replaceChildren(...chart.planets.map((planet) => {
     const item = document.createElement("article");
@@ -73,12 +78,15 @@ function renderChart(chart) {
 }
 
 function renderKundli(chart, style) {
+  const divisionName = document.querySelector(".division-tab.active").dataset.division;
+  const division = chart.divisional_charts.find((item) => item.division === divisionName);
   const groups = Array.from({ length: 12 }, () => []);
-  chart.planets.forEach((planet) => {
-    const index = style === "north" ? planet.house - 1 : planet.sign.sign;
+  division.planets.forEach((planet) => {
+    const index = style === "north" ? planet.house - 1 : planet.sign;
     groups[index].push(`${glyphs[planet.planet]} ${planet.planet.slice(0, 2).toUpperCase()}`);
   });
-  const ascSign = chart.houses.ascendant.sign;
+  const ascSign = division.ascendant.sign;
+  document.querySelector("#ascendant").textContent = `${signs[ascSign]} ${degrees(division.ascendant.degrees_in_sign)}`;
   const cells = groups.map((items, index) => {
     const cell = document.createElement("div");
     cell.className = `chart-cell cell-${index + 1}`;

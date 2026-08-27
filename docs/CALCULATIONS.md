@@ -67,3 +67,18 @@ normalization behavior is covered by property-based tests.
 The J2000 Lahiri fixture records expected values produced by Swiss Ephemeris.
 Regression comparisons use an absolute tolerance of one arc second
 (`1 / 3600` degree). Ketu's opposition to Rahu is verified independently.
+
+## Divisional charts
+
+D1 Rāśi preserves the natal sidereal sign and degrees within that sign.
+
+D9 Navāṁśa divides the zodiac into 108 equal portions of 3 degrees 20
+arcminutes. Beginning from Aries, Navāṁśa signs repeat through the twelve-sign
+sequence. The transformation is therefore equivalent to multiplying the
+normalized sidereal longitude by nine and normalizing it to 360 degrees. The
+same transformation is applied to the Ascendant and every graha, after which
+whole-sign houses are assigned relative to the divisional Ascendant.
+
+This construction follows the classical Varga scheme described in Brihat
+Parashara Hora Shastra's treatment of divisional charts. The implementation is
+a pure numerical transformation and does not attach interpretive claims.

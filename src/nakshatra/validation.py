@@ -122,5 +122,11 @@ def validate_installation() -> ValidationReport:
             ),
             "all grahas have valid Nakshatra and Pada assignments",
         ),
+        _result(
+            "divisional_charts",
+            [item.division.value for item in chart.divisional_charts] == ["D1", "D9"]
+            and all(len(item.planets) == 9 for item in chart.divisional_charts),
+            "D1 Rasi and D9 Navamsa contain nine graha placements",
+        ),
     )
     return ValidationReport(checks=checks)
