@@ -54,8 +54,8 @@ def _planet_map(placements: tuple[RulePlanet, ...]) -> dict[Planet, RulePlanet]:
 
 def evaluate_classical_rules(
     placements: tuple[RulePlanet, ...],
-) -> tuple[ClassicalRuleResult, ClassicalRuleResult, ClassicalRuleResult]:
-    """Evaluate the explicitly scoped v0.6 D1 placement rules."""
+) -> tuple[ClassicalRuleResult, ...]:
+    """Evaluate the explicitly scoped D1 placement rules."""
     planets = _planet_map(placements)
     sun = planets[Planet.SUN]
     mercury = planets[Planet.MERCURY]
@@ -91,6 +91,55 @@ def evaluate_classical_rules(
             f"Mars is in whole-sign house {mars.house}, not included in this "
             "five-house variant."
         )
+    )
+
+    solar_candidates = {
+        Planet.MERCURY,
+        Planet.VENUS,
+        Planet.MARS,
+        Planet.JUPITER,
+        Planet.SATURN,
+    }
+    second_from_sun = tuple(
+        item.planet
+        for item in placements
+        if item.planet in solar_candidates
+        and (item.sign.value - sun.sign.value) % 12 + 1 == 2
+    )
+    twelfth_from_sun = tuple(
+        item.planet
+        for item in placements
+        if item.planet in solar_candidates
+        and (item.sign.value - sun.sign.value) % 12 + 1 == 12
+    )
+    solar_evidence = (
+        f"2nd from Sun: {', '.join(item.value for item in second_from_sun) or 'none'}; "
+        "12th from Sun: "
+        f"{', '.join(item.value for item in twelfth_from_sun) or 'none'}."
+    )
+
+    benefic_relatives = {
+        planet: (planets[planet].sign.value - moon.sign.value) % 12 + 1
+        for planet in (Planet.MERCURY, Planet.JUPITER, Planet.VENUS)
+    }
+    adhi_present = {6, 7, 8}.issubset(benefic_relatives.values())
+    adhi_positions = "; ".join(
+        f"{planet.value.title()} is {relative} from Moon"
+        for planet, relative in benefic_relatives.items()
+    )
+    adhi_evidence = adhi_positions + (
+        "; all 6th, 7th, and 8th positions are occupied."
+        if adhi_present
+        else "; the strict 6th, 7th, and 8th set is incomplete."
+    )
+
+    solar_source = RuleSource(
+        title="Brihat Parashara Hora Shastra",
+        section="Chapter 37, solar Yogas",
+        implemented_scope=(
+            "Planets other than Moon and the nodes in the 2nd and/or 12th from Sun; "
+            "the three returned formations are treated as mutually exclusive."
+        ),
     )
 
     return (
@@ -134,6 +183,45 @@ def evaluate_classical_rules(
                 implemented_scope=(
                     "Mars in whole-sign houses 1, 4, 7, 8, or 12 from Lagna. "
                     "Cancellations and alternate six-house variants are not evaluated."
+                ),
+            ),
+        ),
+        ClassicalRuleResult(
+            rule_id="vesi",
+            name="Vesi Yoga",
+            category=RuleCategory.YOGA,
+            present=bool(second_from_sun) and not twelfth_from_sun,
+            evidence=(solar_evidence,),
+            source=solar_source,
+        ),
+        ClassicalRuleResult(
+            rule_id="vosi",
+            name="Vosi Yoga",
+            category=RuleCategory.YOGA,
+            present=bool(twelfth_from_sun) and not second_from_sun,
+            evidence=(solar_evidence,),
+            source=solar_source,
+        ),
+        ClassicalRuleResult(
+            rule_id="ubhayachari",
+            name="Ubhayachari Yoga",
+            category=RuleCategory.YOGA,
+            present=bool(second_from_sun and twelfth_from_sun),
+            evidence=(solar_evidence,),
+            source=solar_source,
+        ),
+        ClassicalRuleResult(
+            rule_id="adhi_strict",
+            name="Adhi Yoga — strict structural condition",
+            category=RuleCategory.YOGA,
+            present=adhi_present,
+            evidence=(adhi_evidence,),
+            source=RuleSource(
+                title="Brihat Parashara Hora Shastra",
+                section="Chapter 37, verse 5",
+                implemented_scope=(
+                    "Mercury, Jupiter, and Venus collectively occupy all of the "
+                    "6th, 7th, and 8th signs from Moon; strength is not evaluated."
                 ),
             ),
         ),

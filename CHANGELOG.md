@@ -6,6 +6,14 @@ All notable changes to this project will be documented here. The format follows
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-08-27
+
+### Added
+
+- Mutually exclusive Vesi, Vosi, and Ubhayachari solar Yoga audits.
+- Strict Adhi Yoga geometry requiring all three lunar positions to be occupied.
+- Positive, negative, exclusivity, API, and installation-validation coverage.
+
 ## [0.8.0] - 2026-08-27
 
 ### Added

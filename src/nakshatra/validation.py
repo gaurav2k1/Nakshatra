@@ -137,11 +137,11 @@ def validate_installation() -> ValidationReport:
         ),
         _result(
             "classical_rules",
-            len(chart.classical_rules) == 3
+            len(chart.classical_rules) == 7
             and all(
                 rule.evidence and rule.source.title for rule in chart.classical_rules
             ),
-            "three auditable rules include evidence and an identified source",
+            "seven auditable rules include evidence and an identified source",
         ),
         _result(
             "planetary_dignities",

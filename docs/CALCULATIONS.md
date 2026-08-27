@@ -154,3 +154,17 @@ whether it is special, geometric evidence, and the source. Rahu and Ketu may
 receive aspects but do not cast them in v0.8 because node-aspect conventions
 vary. Partial aspect strength, orb-based aspects, Rashi Drishti, effects, and
 interpretation are outside this milestone.
+
+## Expanded Yoga catalogue
+
+Version 0.9 adds the solar Yogas described in *Brihat Parashara Hora Shastra*,
+chapter 37. Among Mars, Mercury, Jupiter, Venus, and Saturn, occupancy of only
+the second sign from the Sun yields Vesi, only the twelfth yields Vosi, and
+occupancy on both sides yields Ubhayachari. The engine reports these three as
+mutually exclusive and excludes the Moon and lunar nodes.
+
+The same chapter's verse 5 supplies the Adhi Yoga geometry. Nakshatra uses the
+strict, fully auditable form: Mercury, Jupiter, and Venus must collectively
+occupy all three of the sixth, seventh, and eighth signs from the Moon. It does
+not label one- or two-position variants as full Adhi Yoga and does not infer
+the text's promised effects or grade planetary strength.

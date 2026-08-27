@@ -39,9 +39,7 @@ class BirthChart(BaseModel):
     planets: tuple[ChartPlanetPosition, ...]
     divisional_charts: tuple[DivisionalChart, DivisionalChart]
     vimshottari_dasha: VimshottariDasha
-    classical_rules: tuple[
-        ClassicalRuleResult, ClassicalRuleResult, ClassicalRuleResult
-    ]
+    classical_rules: tuple[ClassicalRuleResult, ...]
     planetary_dignities: tuple[PlanetaryDignity, ...]
     aspects: tuple[PlanetAspect, ...]
 

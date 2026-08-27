@@ -11,7 +11,7 @@ def test_version_command() -> None:
     result = runner.invoke(app, ["version"])
 
     assert result.exit_code == 0
-    assert result.stdout.strip() == "Nakshatra AI 0.8.0"
+    assert result.stdout.strip() == "Nakshatra AI 0.9.0"
 
 
 def test_info_command() -> None:
