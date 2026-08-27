@@ -26,4 +26,5 @@ def test_validate_installation_runs_calculation_and_serialization_checks() -> No
         "nakshatras",
         "divisional_charts",
         "vimshottari_dasha",
+        "classical_rules",
     }

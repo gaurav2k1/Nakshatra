@@ -11,6 +11,11 @@ from nakshatra.astrology.divisional import (
     build_divisional_chart,
 )
 from nakshatra.astrology.houses import HouseChart, house_for_longitude
+from nakshatra.astrology.rules import (
+    ClassicalRuleResult,
+    RulePlanet,
+    evaluate_classical_rules,
+)
 from nakshatra.astronomy.ephemeris import SwissEphemeris
 from nakshatra.astronomy.julian_day import julian_day
 from nakshatra.models import BirthInput
@@ -32,6 +37,9 @@ class BirthChart(BaseModel):
     planets: tuple[ChartPlanetPosition, ...]
     divisional_charts: tuple[DivisionalChart, DivisionalChart]
     vimshottari_dasha: VimshottariDasha
+    classical_rules: tuple[
+        ClassicalRuleResult, ClassicalRuleResult, ClassicalRuleResult
+    ]
 
 
 def generate_chart(
@@ -58,6 +66,16 @@ def generate_chart(
         position for position in result.planets if position.planet is Planet.MOON
     )
     dasha = vimshottari_dasha(utc_datetime, moon.nakshatra)
+    classical_rules = evaluate_classical_rules(
+        tuple(
+            RulePlanet(
+                planet=position.planet,
+                sign=position.sign.sign,
+                house=position.house,
+            )
+            for position in planets
+        )
+    )
     return BirthChart(
         birth=birth,
         utc_datetime=utc_datetime,
@@ -68,4 +86,5 @@ def generate_chart(
         planets=planets,
         divisional_charts=divisional_charts,
         vimshottari_dasha=dasha,
+        classical_rules=classical_rules,
     )

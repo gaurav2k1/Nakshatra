@@ -33,3 +33,7 @@ def test_generate_chart_connects_time_and_ephemeris() -> None:
     assert chart.vimshottari_dasha.birth_lord.value == "rahu"
     assert len(chart.vimshottari_dasha.periods) == 9
     assert chart.vimshottari_dasha.balance_years == pytest.approx(0.7147, abs=0.001)
+    rules = {rule.rule_id: rule for rule in chart.classical_rules}
+    assert rules["budha_aditya"].present
+    assert rules["gajakesari_basic"].present
+    assert not rules["mangala_lagna_phaladeepika"].present

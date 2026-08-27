@@ -6,6 +6,17 @@ All notable changes to this project will be documented here. The format follows
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-08-27
+
+### Added
+
+- Pure, deterministic evaluation for three explicitly scoped classical rules.
+- Budha-Aditya same-sign conjunction audit.
+- Structural Gajakesari Moon/Jupiter Kendra audit.
+- Five-house Lagna variant of Mangala Dosha audit.
+- Evidence and source metadata for every matched and unmatched result.
+- Browser evidence cards plus API, validation, and regression coverage.
+
 ## [0.5.0] - 2026-08-27
 
 ### Added

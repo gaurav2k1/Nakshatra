@@ -68,6 +68,7 @@ function renderChart(chart) {
   document.querySelector("#ayanamsa").textContent = `${chart.ayanamsa} ${degrees(chart.ayanamsa_degrees)}`;
   renderKundli(chart, document.querySelector(".chart-tab.active").dataset.chart);
   renderDasha(chart.vimshottari_dasha);
+  renderRules(chart.classical_rules);
   planetGrid.replaceChildren(...chart.planets.map((planet) => {
     const item = document.createElement("article");
     item.className = "planet";
@@ -109,6 +110,17 @@ function renderDasha(dasha) {
     const start = new Date(period.start).toISOString().slice(0, 10);
     const end = new Date(period.end).toISOString().slice(0, 10);
     item.innerHTML = `<span>${glyphs[period.lord]}</span><div><strong>${period.lord}</strong><small>${start} → ${end}</small></div><b>${period.duration_years}y</b>`;
+    return item;
+  }));
+}
+
+function renderRules(rules) {
+  const list = document.querySelector("#rules-list");
+  list.replaceChildren(...rules.map((rule) => {
+    const item = document.createElement("article");
+    item.className = `rule-result ${rule.present ? "present" : "absent"}`;
+    item.innerHTML = `<span>${rule.present ? "✓" : "—"}</span><div><strong>${rule.name}</strong><small>${rule.evidence[0]}</small><em>${rule.source.title} · ${rule.source.section}</em></div><b>${rule.present ? "Matched" : "Not matched"}</b>`;
+    item.title = rule.source.implemented_scope;
     return item;
   }));
 }

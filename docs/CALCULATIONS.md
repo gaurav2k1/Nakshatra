@@ -101,3 +101,25 @@ claim that a Dasha year equals a civil calendar year. The sequence follows the
 Vimshottari scheme described in Brihat Parashara Hora Shastra. v0.5 calculates
 Mahadasha periods only; Antardasha subdivisions and interpretations are outside
 this milestone.
+
+## Classical rule audit
+
+Version 0.6 evaluates three deliberately narrow, deterministic placement
+rules. A result is an auditable condition check, not a prediction or a complete
+traditional interpretation.
+
+- **Budha-Aditya Yoga:** matched when the Sun and Mercury occupy the same
+  sidereal sign. The source label identifies the Budha-Aditya entry in the
+  classical Yoga catalogue attributed to *Brihat Parashara Hora Shastra*.
+- **Gajakesari Yoga (structural condition):** matched when Jupiter is in house
+  1, 4, 7, or 10 counted inclusively from the Moon's sign. Classical texts add
+  strength and affliction qualifications; v0.6 intentionally reports only the
+  geometric Kendra condition and says so in the source scope.
+- **Mangala Dosha (five-house Lagna variant):** matched when Mars occupies
+  whole-sign house 1, 4, 7, 8, or 12 from the Ascendant. The source label is
+  *Phaladeepika*, chapter 7. Alternate reference points, regional variants,
+  exceptions, and cancellation rules are outside this implementation.
+
+Each API result contains the stable rule identifier, category, matched state,
+human-readable placement evidence, and source metadata. Negative results also
+retain evidence so callers can verify why a condition did not match.
